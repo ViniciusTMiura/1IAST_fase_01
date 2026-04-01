@@ -1,0 +1,17 @@
+name: tech-challenge-01
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12.13
+  - pip
+  - typer
+  - loguru
+  - tqdm
+  - black
+  - flake8
+  - isort
+  - pytest
+  - pip:
+    - python-dotenv
+    - mkdocs
+    - -e .
