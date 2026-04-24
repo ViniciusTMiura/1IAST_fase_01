@@ -4,7 +4,7 @@ from loguru import logger
 from tqdm import tqdm
 import typer
 
-from tech_challenge_01.config import FIGURES_DIR, PROCESSED_DATA_DIR
+from nps_estimator.config import FIGURES_DIR, PROCESSED_DATA_DIR
 
 app = typer.Typer()
 
