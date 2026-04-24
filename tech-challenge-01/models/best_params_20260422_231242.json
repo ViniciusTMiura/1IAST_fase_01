@@ -1,0 +1,13 @@
+{
+    "n_estimators": 223,
+    "max_depth": 6,
+    "learning_rate": 0.10657054545558793,
+    "num_leaves": 51,
+    "min_child_samples": 20,
+    "subsample": 0.5145126664832956,
+    "colsample_bytree": 0.5496434250368833,
+    "objective": "regression",
+    "random_state": 42,
+    "n_jobs": -1,
+    "verbose": -1
+}

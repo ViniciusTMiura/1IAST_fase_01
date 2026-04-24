@@ -196,6 +196,7 @@ def analise_quantil(df, col, n=10):
     plt.xlabel("Quantil", fontsize=12)
     plt.ylabel("NPS Médio", fontsize=12)
     plt.xticks(range(1, df_plot["quantil"].max() + 1))
+    plt.ylim(0, 10)
 
     plt.tight_layout()
     plt.show()
