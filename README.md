@@ -12,16 +12,20 @@ A Pós Tech AI Scientist da FIAP é focada no desenvolvimento de competências e
 - Boas práticas de engenharia de ML
 - Deploy e aplicações práticas de IA
 
+
 Os projetos deste repositório refletem a aplicação desses conceitos em cenários reais e desafios técnicos.
+
 ---
 ## 🗂️ Estrutura do Repositório
-pos-tech-ai-scientist/
+```
+1AIST_projects/
 ├── tech-challenge-01/
 ├── tech-challenge-02/
 ├── notebooks/
 ├── estudos/
 ├── datasets/
 └── README.md
+```
 
 ## 📁 Descrição das pastas
 - tech-challenge-*: Projetos avaliativos e desafios técnicos da pós
@@ -76,7 +80,7 @@ cd tech-challenge-01
 
 ---
 ## 👨‍💻 Autor
-Projetos desenvolvidos como parte da Pós Tech de AI Scientist — FIAP.
+Projetos desenvolvidos por Vinícius Takiuti Miura e respectivos grupos - declarados dentro do README de cada projeto - como parte da Pós Tech de AI Scientist — FIAP, .
 
 ---
 ## 📌 Observações
