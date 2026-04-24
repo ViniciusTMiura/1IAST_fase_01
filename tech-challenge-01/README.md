@@ -4,26 +4,34 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-Projeto desenvolvido pelos colaboradores para o desafio Tech Challenge da Fase 01 do curso Pós-Tech IA Scientist - FIAP
+Projeto desenvolvido pelos alunos
+
+1. Carolina Yamada
+2. Igor Constantino
+3. Raphael Tavela
+4. Rodrigo do Vale
+5. Vinicius Miura
+
+para o desafio Tech Challenge da Fase 01 do curso Pós-Tech IA Scientist - FIAP
 
 ---
 ## 📊 NPS Estimator
 Este projeto implementa um pipeline completo de Machine Learning para estimativa de NPS (Net Promoter Score), incluindo:
 
-Treinamento de modelo com LightGBM
-Inferência via código Python
-Interface interativa com Streamlit
-CLI com Typer
-Organização modular e pronta para produção
+Treinamento de modelo com LightGBM <br>
+Inferência via código Python<br>
+Interface interativa com Streamlit<br>
+CLI com Typer<br>
+Organização modular e pronta para produção<br>
 
 ---
 ## 🧠 Visão Geral
 O objetivo do projeto é estimar o score de NPS de um cliente a partir de variáveis operacionais relacionadas à experiência do cliente, como:
 
-Número de reclamações
-Contatos com o atendimento ao cliente
-Tempo de resolução de problemas
-Atraso na entrega
+Número de reclamações<br>
+Contatos com o atendimento ao cliente<br>
+Tempo de resolução de problemas<br>
+Atraso na entrega<br>
 
 O modelo treinado pode ser utilizado tanto via linha de comando, quanto por meio de uma interface web interativa.
 
@@ -83,13 +91,13 @@ O modelo treinado pode ser utilizado tanto via linha de comando, quanto por meio
 ---
 ## ⚙️ Tecnologias Utilizadas
 
-Python 3.10+
-Pandas / NumPy
-LightGBM
-Joblib
-Streamlit
-Typer
-Loguru
+- Python 3.10+
+- pandas / NumPy
+- lightGBM
+- joblib
+- streamlit
+- typer
+- loguru
 
 ---
 ## 📦 Instalação
@@ -156,11 +164,11 @@ streamlit run nps_estimator/modeling/app_nps_inference.py
 - Exibição clara do NPS estimado
 
 ### 🧪 Boas Práticas Aplicadas
-✅ Separação entre lógica de negócio e interface
-✅ Cache de artefatos com lru_cache
-✅ Imports absolutos e estrutura de pacote
-✅ Tipagem e docstrings padronizadas
-✅ Código preparado para API / deploy
+✅ Separação entre lógica de negócio e interface <br>
+✅ Cache de artefatos com lru_cache <br>
+✅ Imports absolutos e estrutura de pacote <br>
+✅ Tipagem e docstrings padronizadas <br>
+✅ Código preparado para API / deploy <br>
 
 ### 🚀 Próximos Passos (Sugestões)
 
