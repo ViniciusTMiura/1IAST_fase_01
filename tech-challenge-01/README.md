@@ -92,12 +92,12 @@ O modelo treinado pode ser utilizado tanto via linha de comando, quanto por meio
 ## ⚙️ Tecnologias Utilizadas
 
 - Python 3.10+
-- pandas / NumPy
-- lightGBM
-- joblib
-- streamlit
-- typer
-- loguru
+- Pandas / NumPy
+- LightGBM
+- Joblib
+- Streamlit
+- Typer
+- Loguru
 
 ---
 ## 📦 Instalação
