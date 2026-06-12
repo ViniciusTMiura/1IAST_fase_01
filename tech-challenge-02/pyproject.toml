@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "alfabetizacao-pipeline"
+version = "0.1.0"
+description = "Pipeline Híbrido para Análise da Alfabetização no Brasil — Tech Challenge Fase 2 — Pós-Tech IA Scientist FIAP"
+authors = [
+  { name = "Carolina Yamada | Igor Constantino | Raphael Tavela | Rodrigo do Vale | Vinicius Miura" },
+]
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+requires-python = ">=3.10"
+
+[tool.black]
+line-length = 99
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+)/
+'''
+
+[tool.isort]
+profile = "black"
+known_first_party = ["alfabetizacao_pipeline"]
+force_sort_within_sections = true
+
+[tool.setuptools.packages.find]
+where = ["."]
