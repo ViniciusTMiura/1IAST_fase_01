@@ -15,7 +15,7 @@ Instalação:
     pip install confluent-kafka --break-system-packages
 
 Uso:
-    python producer_alunos_eventos.py --intervalo 3 --quantidade 100
+    python producer_alunos.py --intervalo 3 --quantidade 100
 """
 
 import argparse
@@ -80,16 +80,16 @@ def gerar_evento_aluno() -> dict:
     """
     presenca = random.choices(PRESENCA_SIMULADA, weights=[0.92, 0.08])[0]
 
-    if presenca == "Presente":
+    if presenca == "0":
         preenchimento_caderno = random.choices(
-            PREENCHIMENTO_SIMULADO, weights=[0.85, 0.10, 0.05]
+            PREENCHIMENTO_SIMULADO, weights=[0.85, 0.15]
         )[0]
     else:
-        preenchimento_caderno = "Em branco"
+        preenchimento_caderno = "1"
 
     # Só há proficiência/alfabetização válida se o aluno esteve presente
     # e preencheu o caderno adequadamente (mesma lógica do Saeb real)
-    if presenca == "Presente" and preenchimento_caderno == "Adequado":
+    if presenca == "0" and preenchimento_caderno == "0":
         proficiencia = round(random.gauss(mu=720, sigma=90), 1)
         proficiencia = max(0.0, min(1000.0, proficiencia))
         alfabetizado = "Sim" if proficiencia >= PONTO_CORTE_ALFABETIZACAO else "Não"
