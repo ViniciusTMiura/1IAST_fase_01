@@ -1,0 +1,5 @@
+# Configurações do produtor Kafka
+script_path: "producer_alunos.py"
+topic: "alunos-eventos"
+intervalo: 2
+quantidade: 50
