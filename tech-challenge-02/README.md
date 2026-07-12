@@ -258,13 +258,61 @@ simula_producer_uf.ipynb          ← publica eventos em uf-eventos
 12_uf_streaming_ingestion.ipynb
 ```
 
-### Execução recorrente (mensal)
+### Execução recorrente via Databricks Asset Bundles
+
+A pasta `workflows/` contém três jobs definidos no formato **Databricks Asset Bundles (DAB)**, que automatizam toda a execução recorrente da pipeline:
+
+| Arquivo | Job | Agendamento | Tarefas |
+|---|---|---|---|
+| `bronze_batch_ingestion.yaml` | `bronze_batch_ingestion` | Dia 1 de cada mês, 00:00 (BRT) | `01_batch_ingestion` |
+| `bronze_ingestao_streaming.yaml` | `bronze_ingestao_streaming` | A cada **30 minutos** | `10_alunos_streaming_ingestion` · `11_municipio_streaming_ingestion` · `12_uf_streaming_ingestion` (em paralelo) |
+| `run_batch_processing.yaml` | `run_batch_processing` | Diariamente, 02:00 (BRT) | `02_carga_camada_silver` → `03_carga_camada_gold` (em sequência) |
+
+#### Deploy dos workflows
+
+```bash
+# 1. Instalar o Databricks CLI (caso necessário)
+pip install databricks-cli
+
+# 2. Configurar autenticação com o workspace
+databricks configure --token
+# HOST: https://<workspace>.azuredatabricks.net (ou GCP/AWS)
+# TOKEN: Personal Access Token gerado no Databricks
+
+# 3. Entrar na pasta do projeto
+cd tech-challenge-02
+
+# 4. Fazer o deploy de todos os workflows de uma vez
+databricks bundle deploy
+
+# 5. Verificar os jobs criados
+databricks jobs list
+```
+
+#### Executar manualmente via CLI
+
+```bash
+# Ingestão batch (Bronze)
+databricks bundle run bronze_batch_ingestion
+
+# Ingestão streaming — processa eventos disponíveis nos 3 tópicos
+databricks bundle run bronze_ingestao_streaming
+
+# Processamento Silver + Gold
+databricks bundle run run_batch_processing
+```
+
+#### Fluxo de execução dos jobs
 
 ```
-1. 01_batch_ingestion.ipynb       ← Reprocessa partição do mês corrente (Dynamic Overwrite)
-2. 02_carga_camada_silver.ipynb
-3. 03_carga_camada_gold.ipynb
+[Dia 1 do mês, 00:00]  bronze_batch_ingestion   → origens.*  (batch BigQuery)
+[A cada 30 min]         bronze_ingestao_streaming → origens.*  (streaming Kafka)
+[Diariamente, 02:00]    run_batch_processing
+                          └── run_silver_layer     → silver.*
+                          └── run_gold_layer        → gold.*   (depende do silver)
 ```
+
+Todos os jobs têm **2 tentativas automáticas** em caso de falha, com intervalo mínimo entre retentativas configurado, fila habilitada e notificação por e-mail em caso de erro.
 
 ---
 
