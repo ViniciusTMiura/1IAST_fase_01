@@ -74,16 +74,15 @@ def carregar_config() -> dict:
 def gerar_evento_municipio() -> dict:
     taxa = round(max(0.0, min(100.0, random.gauss(mu=75.0, sigma=12.0))), 2)
     media = round(max(500.0, min(950.0, random.gauss(mu=745.0, sigma=60.0))), 2)
-    participacao = round(max(0.0, min(100.0, random.gauss(mu=92.0, sigma=5.0))), 2)
 
     evento = {
         "ano": random.choice(ANOS_SIMULADOS),
-        "id_municipio": random.choice(IDS_MUNICIPIO_SIMULADOS),
+        # "id_municipio": random.choice(IDS_MUNICIPIO_SIMULADOS),
+        "id_municipio": 'TEST',
         "serie": random.choice(SERIES_SIMULADAS),
         "rede": random.choice(REDES_SIMULADAS),
         "taxa_alfabetizacao": taxa,
         "media_portugues": media,
-        "percentual_participacao": participacao,
     }
     evento.update(_gerar_proporcoes_niveis())
     return evento

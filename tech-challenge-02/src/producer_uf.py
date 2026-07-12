@@ -66,16 +66,15 @@ def carregar_config() -> dict:
 def gerar_evento_uf() -> dict:
     taxa = round(max(0.0, min(100.0, random.gauss(mu=78.0, sigma=10.0))), 2)
     media = round(max(500.0, min(950.0, random.gauss(mu=750.0, sigma=50.0))), 2)
-    participacao = round(max(0.0, min(100.0, random.gauss(mu=93.0, sigma=4.0))), 2)
 
     evento = {
         "ano": random.choice(ANOS_SIMULADOS),
-        "sigla_uf": random.choice(SIGLAS_UF_SIMULADAS),
+        # "sigla_uf": random.choice(SIGLAS_UF_SIMULADAS),
+        "sigla_uf": 'TEST',
         "serie": random.choice(SERIES_SIMULADAS),
         "rede": random.choice(REDES_SIMULADAS),
         "taxa_alfabetizacao": taxa,
         "media_portugues": media,
-        "percentual_participacao": participacao,
     }
     evento.update(_gerar_proporcoes_niveis())
     return evento

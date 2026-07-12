@@ -92,16 +92,16 @@ def gerar_evento_aluno() -> dict:
     if presenca == "0" and preenchimento_caderno == "0":
         proficiencia = round(random.gauss(mu=720, sigma=90), 1)
         proficiencia = max(0.0, min(1000.0, proficiencia))
-        alfabetizado = "Sim" if proficiencia >= PONTO_CORTE_ALFABETIZACAO else "Não"
+        alfabetizado = "1" if proficiencia >= PONTO_CORTE_ALFABETIZACAO else "0"
     else:
         proficiencia = None
-        alfabetizado = "Não avaliado"
+        alfabetizado = "0"
 
     return {
         "ano": random.choice(ANOS_SIMULADOS),
         "id_municipio": random.choice(IDS_MUNICIPIO_SIMULADOS),
         "id_escola": f"{random.randint(10000000, 99999999)}",
-        "id_aluno": "99999999",
+        "id_aluno": "TEST",
         # "id_aluno": f"{random.randint(53027701, 99999999)}",
         "caderno": random.choice(CADERNOS_SIMULADOS),
         "serie": random.choice(SERIES_SIMULADAS),
