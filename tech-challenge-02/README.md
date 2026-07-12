@@ -37,37 +37,37 @@ A pipeline segue a **Arquitetura Medalhão** em três camadas Delta Lake, com in
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│  FONTES EXTERNAS                                                     │
-│                                                                      │
+│  FONTES EXTERNAS                                                    │
+│                                                                     │
 │  GCP BigQuery (Base dos Dados / INEP)    Confluent Cloud (Kafka)    │
 │  Tabelas: uf, municipio, alunos,         Tópicos:                   │
 │           meta_brasil, meta_uf,          · alunos-eventos           │
 │           meta_municipio, dicionario     · municipio-eventos        │
 │                                          · uf-eventos               │
 └────────────────────┬──────────────────────────────┬─────────────────┘
-                     │  BATCH (mensal)               │  STREAMING (near real-time)
-                     ▼                               ▼
+                     │  BATCH (mensal)              │  STREAMING (near real-time)
+                     ▼                              ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │  BRONZE — origens.* (Delta Lake, particionado por ano/mês)          │
-│                                                                      │
+│                                                                     │
 │  tc02_alunos · tc02_municipio · tc02_uf · tc02_meta_brasil          │
 │  tc02_meta_uf · tc02_meta_mun · tc02_dicionario                     │
 └────────────────────────────────┬────────────────────────────────────┘
                                  │  02_carga_camada_silver.ipynb
                                  ▼
 ┌─────────────────────────────────────────────────────────────────────┐
-│  SILVER — silver.* (Delta Lake)                                      │
-│                                                                      │
+│  SILVER — silver.* (Delta Lake)                                     │
+│                                                                     │
 │  tc02_dim_uf · tc02_dim_municipio · tc02_alunos                     │
 │  tc02_meta_brasil · tc02_meta_uf · tc02_meta_municipio              │
 └────────────────────────────────┬────────────────────────────────────┘
                                  │  03_carga_camada_gold.ipynb
                                  ▼
 ┌─────────────────────────────────────────────────────────────────────┐
-│  GOLD — gold.* (Delta Lake — Modelo Kimball)                         │
-│                                                                      │
-│  dim_municipio (SK via xxhash64)                                     │
-│  fato_alfabetizacao_consolidada                                      │
+│  GOLD — gold.* (Delta Lake — Modelo Kimball)                        │
+│                                                                     │
+│  dim_municipio (SK via xxhash64)                                    │
+│  fato_alfabetizacao_consolidada                                     │
 └──────────────────────────┬──────────────────────────────────────────┘
                            │
               ┌────────────┴─────────────┐
@@ -96,7 +96,6 @@ flowchart TD
     end
 
     subgraph batch["Ingestão Batch — Mensal"]
-        NB00[00_criacao_origens.ipynb]
         NB01[01_batch_ingestion.ipynb]
     end
 
@@ -109,7 +108,7 @@ flowchart TD
     subgraph bronze["origens.* — Bronze Layer"]
         OR1[(tc02_alunos)]
         OR2[(tc02_municipio\ntc02_uf)]
-        OR3[(tc02_meta_brasil\ntc02_meta_uf\ntc02_meta_mun\ntc02_dicionario)]
+        OR3[(tc02_meta_brasil\ntc02_meta_uf\ntc02_meta_mun)]
     end
 
     subgraph silver["silver.* — Silver Layer"]
@@ -124,7 +123,7 @@ flowchart TD
     PA --> T1 --> NS10 --> OR1
     PM --> T2 --> NS11 --> OR2
     PU --> T3 --> NS12 --> OR2
-    BQ --> NB00 & NB01 --> OR1 & OR2 & OR3
+    BQ --> NB01 --> OR1 & OR2 & OR3
 
     OR1 & OR2 & OR3 --> NB02[02_carga_camada_silver.ipynb] --> SIL
     SIL --> NB03[03_carga_camada_gold.ipynb] --> GD1 & GD2
@@ -147,9 +146,9 @@ Dados obtidos da plataforma [Base dos Dados](https://basedosdados.org/) — conj
 | `meta_alfabetizacao_brasil` | `origens.tc02_meta_brasil` | Mensal | Batch |
 | `meta_alfabetizacao_uf` | `origens.tc02_meta_uf` | Mensal | Batch |
 | `meta_alfabetizacao_municipio` | `origens.tc02_meta_mun` | Mensal | Batch |
-| `dicionario` | `origens.tc02_dicionario` | Mensal | Batch |
+| `dicionario` | `origens.tc02_dicionario` | - | - |
 
-As três tabelas com dados de medição (`alunos`, `municipio`, `uf`) recebem atualizações em near real-time via Kafka, simulando a chegada de novos resultados de avaliação ao longo do período entre execuções batch.
+As três tabelas com dados de medição (`alunos`, `municipio`, `uf`) recebem atualizações em near real-time (intervalos de 30 minutos) via Kafka, simulando a chegada de novos resultados de avaliação ao longo do período entre execuções batch.
 
 ---
 
@@ -181,13 +180,19 @@ tech-challenge-02/
 │   ├── simula_producer_uf.ipynb
 │   │
 │   ├── # ── Configuração dos producers ──────────────────────────────
-│   ├── config.yaml                       ← topic, intervalo, quantidade (alunos)
+│   ├── config_aluno.yaml
 │   ├── config_municipio.yaml
 │   └── config_uf.yaml
 │
 ├── docs/
 │   └── [IAST] - Tech Challenge - Fase 2.pdf
 ├── workflows/                            ← Definições de Databricks Workflows
+│   │
+│   ├── # ── Pipelines de execução ───────────────────────────────────
+│   ├── bronze_batch_ingestion.yaml         ← Realiza a execução dos notebooks de ingestão em batch
+│   ├── bronze_ingestao_streaming.yaml      ← Realiza a execução dos notebooks de ingestão em streaming
+│   ├── run_batch_processing.yaml           ← Realiza a execução dos notebooks de processamento das camadas silver e gold
+│
 └── README.md
 ```
 
