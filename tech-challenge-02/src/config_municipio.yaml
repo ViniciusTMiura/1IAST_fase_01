@@ -1,0 +1,5 @@
+# Configurações do produtor Kafka - Indicadores Municipais
+script_path: "producer_municipio.py"
+topic: "municipio-eventos"
+intervalo: 3
+quantidade: 20
