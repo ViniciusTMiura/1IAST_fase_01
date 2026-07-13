@@ -1,0 +1,49 @@
+resources:
+  jobs:
+    bronze_ingestao_streaming:
+      name: bronze_ingestao_streaming
+      trigger:
+        pause_status: UNPAUSED
+        periodic:
+          interval: 30
+          unit: MINUTES
+      tasks:
+        - task_key: run_stream_ingesting_alunos
+          notebook_task:
+            notebook_path: /Workspace/1AIST_projects/tech-challenge-02/notebooks/Test_Kafka
+            source: WORKSPACE
+          max_retries: 2
+          min_retry_interval_millis: 600000
+          disable_auto_optimization: false
+          email_notifications:
+            on_failure:
+              - vinicius.tmiura@gmail.com
+          notification_settings:
+            no_alert_for_canceled_runs: true
+        - task_key: run_stream_ingesting_indicadores_mun
+          notebook_task:
+            notebook_path: /Workspace/1AIST_projects/tech-challenge-02/src/11_municipio_streaming_ingestion
+            source: WORKSPACE
+          max_retries: 2
+          min_retry_interval_millis: 600000
+          disable_auto_optimization: false
+          email_notifications:
+            on_failure:
+              - vinicius.tmiura@gmail.com
+          notification_settings:
+            no_alert_for_canceled_runs: true
+        - task_key: run_stream_ingesting_indicadores_uf
+          notebook_task:
+            notebook_path: /Workspace/1AIST_projects/tech-challenge-02/src/12_uf_streaming_ingestion
+            source: WORKSPACE
+          max_retries: 2
+          min_retry_interval_millis: 600000
+          disable_auto_optimization: false
+          email_notifications:
+            on_failure:
+              - vinicius.tmiura@gmail.com
+          notification_settings:
+            no_alert_for_canceled_runs: true
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED
