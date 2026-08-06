@@ -1,0 +1,34 @@
+resources:
+  jobs:
+    run_batch_processing:
+      name: run_batch_processing
+      notification_settings:
+        no_alert_for_canceled_runs: true
+      schedule:
+        quartz_cron_expression: 0 0 2 * * ?
+        timezone_id: America/Sao_Paulo
+        pause_status: UNPAUSED
+      tasks:
+        - task_key: run_silver_layer
+          notebook_task:
+            notebook_path: /Workspace/1AIST_projects/tech-challenge-02/src/02_carga_camada_silver
+            source: WORKSPACE
+          max_retries: 2
+          min_retry_interval_millis: 900000
+          retry_on_timeout: true
+          disable_auto_optimization: false
+          notification_settings:
+            no_alert_for_canceled_runs: true
+        - task_key: run_gold_layer
+          depends_on:
+            - task_key: run_silver_layer
+          notebook_task:
+            notebook_path: /Workspace/1AIST_projects/tech-challenge-02/src/03_carga_camada_gold
+            source: WORKSPACE
+          max_retries: 2
+          min_retry_interval_millis: 900000
+          retry_on_timeout: true
+          disable_auto_optimization: false
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED

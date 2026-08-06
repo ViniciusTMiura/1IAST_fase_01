@@ -1,0 +1,24 @@
+resources:
+  jobs:
+    bronze_batch_ingestion:
+      name: bronze_batch_ingestion
+      email_notifications:
+        on_failure:
+          - vinicius.tmiura@gmail.com
+      notification_settings:
+        no_alert_for_canceled_runs: true
+      schedule:
+        quartz_cron_expression: 0 0 0 1 * ?
+        timezone_id: America/Sao_Paulo
+        pause_status: UNPAUSED
+      tasks:
+        - task_key: run_batch_ingestion
+          notebook_task:
+            notebook_path: /Workspace/1AIST_projects/tech-challenge-02/src/01_batch_ingestion
+            source: WORKSPACE
+          max_retries: 2
+          min_retry_interval_millis: 900000
+          disable_auto_optimization: false
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED

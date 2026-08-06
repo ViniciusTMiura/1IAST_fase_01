@@ -1,0 +1,15 @@
+# Databricks / Spark (local development)
+pyspark>=3.5.0
+delta-spark>=3.1.0
+
+# Data ingestion — Base dos Dados (BigQuery)
+basedosdados>=1.7.0
+google-cloud-bigquery>=3.11.0
+
+# Data processing
+pandas>=2.0.0
+pyarrow>=14.0.0
+
+# Utilities
+loguru>=0.7.0
+python-dotenv>=1.0.0

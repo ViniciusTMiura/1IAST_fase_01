@@ -1,0 +1,5 @@
+# Configurações do produtor Kafka - Indicadores por UF
+script_path: "producer_uf.py"
+topic: "uf-eventos"
+intervalo: 3
+quantidade: 27
